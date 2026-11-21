@@ -9,7 +9,7 @@ data=$work/fixture
 strace -y -e trace=read -o "$work/baseline" ./lab07-signals "$data" >"$work/normal"
 diff -u tests/normal.txt "$work/normal"
 echo 'PASS normal'
-first=$(awk -v file="$data" '/^read\(/ {++n; if(index($0,file)){print n; exit}}' "$work/baseline")
+first=$(awk '/^read\(/ {++n; if ($0 ~ /, "ALT", 3\) += 3$/) {print n; exit}}' "$work/baseline")
 test "$first" -ge 1
 printf 'First application read: %s; loader reads: %s\n' "$first" "$((first-1))"
 rc=0
